@@ -1,7 +1,7 @@
 Author:        Markus Stenberg <markus.stenberg@iki.fi>, cisco Systems, Inc.
 Created:       Mon Jul 23 11:05:05 2012 mstenber
-Last modified: Wed Jul 25 17:13:10 2012 mstenber
-Edit time:     30 min
+Last modified: Wed Jul 25 17:34:54 2012 mstenber
+Edit time:     37 min
 
 Linux Source Address Dependent Routing
 ======================================
@@ -38,54 +38,7 @@ Required software
 
 - iproute2
 
-### On Debian 6.0 (and possibly Ubuntu as well)
-
-    sudo apt-get install isc-dhcp-client ndisc6 iproute
-
-- copy whole lsadr/ to /usr/share
-
-    cp -al lsadr /usr/share
-
-- copy dhclient.conf to /etc/dhcp
-
-    cp dhclient.conf /etc/dhcp
-
-- copy the dhclient-exit-hooks.d/ contents to /etc/dhcp/
-
-    cp -al dhclient-exit-hooks.d /etc/dhcp
-
-- put contents of debian-startup.sh should to /etc/rc.local
-
-### On OpenWRT
-
-    scripts/feeds install dhcp-client rdisc6 radvd
-
-IPv6 support in general is also needed; play with make menuconfig to select
-what's needed. It is also necessary to address lack of IPv6 support in ISC
-DHCP bug <https://dev.openwrt.org/ticket/11811>. This can be done by
-applying the supplied openwrt-dhcp-ipv6.diff to feeds/packages.
-
-After creating an image (and possibly even starting it),
-
-- copy whole lsadr/ to /usr/share
-
-    cp -al lsadr /usr/share
-
-- copy dhclient-exit-hooks.d/ contents to /etc/dhcp/
-
-    mkdir -p /etc/dhcp
-    cp -al dhclient-exit-hooks.d /etc/dhcp
-
-- copy dhclient.conf and dhclient-exit-script to /etc
-
-    cp dhclient.conf dhclient-exit-script /etc
-
-- put contents of openwrt-startup.sh to /etc/rc.local
-- dhclient/dhclient6/radvd scripts should be removed from /etc/init.d (or
-  their start from /etc/rc.d)
-
-    rm /etc/init.d/{dhclient,dhclient6,radvd}
-
+    
 
 Source-based routing in Linux
 -----------------------------
@@ -177,6 +130,67 @@ things within per-prefix table, but unfortunately it would require changes
 to any programs that manipulate the routes (e.g. internal routing protocols
 for the home network), and therefore this throw + main table routing
 approach is used.
+
+Installation
+------------
+
+Assumptions
+
+- eth0 = LAN
+
+- eth1 = WAN
+ 
+
+### On Debian 6.0 (and possibly Ubuntu as well)
+
+The needed steps are as follows:
+
+- install dependencies
+
+- copy whole lsadr/ to /usr/share
+
+- copy dhclient.conf to /etc/dhcp
+
+- copy the dhclient-exit-hooks.d/ contents to /etc/dhcp/
+
+- put contents of debian-startup.sh should to /etc/rc.local
+
+Or, you can just 
+
+    sudo ./install-debian.sh
+    
+(Note: It will overwrite /etc/rc.local.)    
+
+### On OpenWRT
+
+IPv6 support in general is also needed; play with make menuconfig to select
+what's needed. It is also necessary to address lack of IPv6 support in ISC
+DHCP bug <https://dev.openwrt.org/ticket/11811>. This can be done by
+applying the supplied openwrt-dhcp-ipv6.diff to feeds/packages. Beyond
+that, dhcp-client, rdisc6, radvd should be available.
+
+After creating an image (and possibly even starting it),
+
+- copy whole lsadr/ to /usr/share
+
+- copy dhclient-exit-hooks.d/ contents to /etc/dhcp/
+
+- copy dhclient.conf and dhclient-exit-script to /etc
+
+- put contents of openwrt-startup.sh to /etc/rc.local
+
+- dhclient/dhclient6/radvd scripts should be removed from /etc/init.d (or
+  their start from /etc/rc.d)
+
+- edit the use* scripts eithin /etc/dhcp/dhclient-exit-hooks.d/ for
+  appropriate LAN_INTERFACE (probably br-lan)
+
+Or, you can just 
+
+    ./install-openwrt.sh
+    
+(Assuming you have this tarball opened on a willing OpenWRT box, with the
+appropriate kernel and patched ISC DHCP.)    
 
 Credits
 -------
