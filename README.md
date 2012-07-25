@@ -1,7 +1,7 @@
 Author:        Markus Stenberg <markus.stenberg@iki.fi>, cisco Systems, Inc.
 Created:       Mon Jul 23 11:05:05 2012 mstenber
-Last modified: Wed Jul 25 17:34:54 2012 mstenber
-Edit time:     37 min
+Last modified: Wed Jul 25 17:43:48 2012 mstenber
+Edit time:     39 min
 
 Linux Source Address Dependent Routing
 ======================================
@@ -14,7 +14,7 @@ of the documents specify something, which requires source-based
 routing. Obviously they can be also used just to get 6rd ball rolling, or
 to deal with multiple ISPs connected to a single CPE.
 
-This should be considered just a work-in-progress sample; in practise,
+This should be considered just a work-in-progress sample; in practice,
 distributions should integrate something similar to their own set of
 startup/network setup infrastructure.
 
@@ -122,7 +122,7 @@ Rule/route structure
 
  - default routes, if any => wherever
 
-Linux kernel reservers 0, 253, 254, 255 for built-in use. We use table
+Linux kernel reserves 0, 253, 254, 255 for built-in use. We use table
 numbers 1000+ (in a dynamic fashion).
 
 A more correct approach would be to handle all source prefix-specific
@@ -182,7 +182,7 @@ After creating an image (and possibly even starting it),
 - dhclient/dhclient6/radvd scripts should be removed from /etc/init.d (or
   their start from /etc/rc.d)
 
-- edit the use* scripts eithin /etc/dhcp/dhclient-exit-hooks.d/ for
+- edit the use* scripts within /etc/dhcp/dhclient-exit-hooks.d/ for
   appropriate LAN_INTERFACE (probably br-lan)
 
 Or, you can just 
