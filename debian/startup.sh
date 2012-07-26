@@ -3,6 +3,9 @@
 # autoconfigure eth1
 ifconfig eth1 up
 
+# kill old dhclients, if any
+killall -9 -q dhclient
+
 # fire up dhclient to configure interface
 dhclient eth1
 

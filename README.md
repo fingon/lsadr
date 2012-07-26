@@ -1,7 +1,7 @@
 Author:        Markus Stenberg <markus.stenberg@iki.fi>, cisco Systems, Inc.
 Created:       Mon Jul 23 11:05:05 2012 mstenber
-Last modified: Thu Jul 26 10:22:50 2012 mstenber
-Edit time:     39 min
+Last modified: Thu Jul 26 11:07:35 2012 mstenber
+Edit time:     41 min
 
 Linux Source Address Dependent Routing
 ======================================
@@ -154,6 +154,9 @@ The needed steps are as follows:
 - copy the dhclient-exit-hooks.d/ contents to /etc/dhcp/
 
 - put contents of debian/startup.sh to /etc/rc.local
+
+- delete old DHCP leases from /var/lib/dhcp/dhclient*.leases (dhclient.conf
+  difference may cause issues)
 
 Or, you can just 
 

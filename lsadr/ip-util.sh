@@ -6,7 +6,7 @@
 # Author: Markus Stenberg <fingon@iki.fi>
 #
 # Created:       Tue Jul 10 08:40:55 2012 mstenber
-# Last modified: Wed Jul 25 16:51:09 2012 mstenber
+# Last modified: Thu Jul 26 10:54:52 2012 mstenber
 # Edit time:     112 min
 #
 
@@ -108,7 +108,7 @@ get_if_default_ipv6_nexthop()
 
     # First off, if kernel has already something in default
     # routing table, we can live with that
-    NH=`ip -6 route show dev $DEV default 2>/dev/null | cut -d ' ' -f 3`
+    NH=`ip -6 route show dev $DEV default 2>/dev/null | head -1 | cut -d ' ' -f 3`
     # Sanity check
     if [ x`echo $NH | cut -d ':' -f 1` = xfe80 ]
     then
@@ -116,7 +116,7 @@ get_if_default_ipv6_nexthop()
     fi
 
     # Fallback to rdisc6 - anyone there?
-    NH=`rdisc6 -1 $DEV 2>/dev/null | egrep '^ from ' | cut -d ' ' -f 3`
+    NH=`rdisc6 -1 $DEV 2>/dev/null | egrep '^ from ' | head -1 | cut -d ' ' -f 3`
     # Sanity check
     if [ x`echo $NH | cut -d ':' -f 1` = xfe80 ]
     then
