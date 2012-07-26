@@ -1,6 +1,6 @@
 Author:        Markus Stenberg <markus.stenberg@iki.fi>, cisco Systems, Inc.
 Created:       Mon Jul 23 11:05:05 2012 mstenber
-Last modified: Wed Jul 25 17:43:48 2012 mstenber
+Last modified: Thu Jul 26 10:22:50 2012 mstenber
 Edit time:     39 min
 
 Linux Source Address Dependent Routing
@@ -153,11 +153,11 @@ The needed steps are as follows:
 
 - copy the dhclient-exit-hooks.d/ contents to /etc/dhcp/
 
-- put contents of debian-startup.sh should to /etc/rc.local
+- put contents of debian/startup.sh to /etc/rc.local
 
 Or, you can just 
 
-    sudo ./install-debian.sh
+    > sudo ./debian/install.sh
     
 (Note: It will overwrite /etc/rc.local.)    
 
@@ -177,7 +177,7 @@ After creating an image (and possibly even starting it),
 
 - copy dhclient.conf and dhclient-exit-script to /etc
 
-- put contents of openwrt-startup.sh to /etc/rc.local
+- put contents of openwrt/startup.sh to /etc/rc.local
 
 - dhclient/dhclient6/radvd scripts should be removed from /etc/init.d (or
   their start from /etc/rc.d)
@@ -187,7 +187,7 @@ After creating an image (and possibly even starting it),
 
 Or, you can just 
 
-    ./install-openwrt.sh
+    # ./openwrt/install.sh
     
 (Assuming you have this tarball opened on a willing OpenWRT box, with the
 appropriate kernel and patched ISC DHCP.)    

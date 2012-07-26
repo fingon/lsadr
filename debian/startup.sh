@@ -1,3 +1,5 @@
+#! /bin/sh
+
 # autoconfigure eth1
 ifconfig eth1 up
 
