@@ -6,8 +6,6 @@ ifconfig eth1 up
 # fire up dhclient to configure interface
 dhclient eth1
 
-# Enable IPv4 forwarding by default
-echo 1 > /proc/sys/net/ipv4/ip_forward
 # enable ipv6 forwarding
 echo 1 > /proc/sys/net/ipv6/conf/all/forwarding
 
