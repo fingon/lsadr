@@ -6,7 +6,7 @@
 # Author: Markus Stenberg <fingon@iki.fi>
 #
 # Created:       Tue Jul 10 08:40:55 2012 mstenber
-# Last modified: Wed Sep  5 16:28:19 2012 mstenber
+# Last modified: Wed Sep  5 16:43:47 2012 mstenber
 # Edit time:     116 min
 #
 
@@ -102,7 +102,7 @@ get_or_add_ip6_table_for_prefix_pref()
 
             # .. 'someone' has compiled ash without expression support
             # this works there too (but is less efficient)
-            TABLE=`expr $TABLE+1`
+            TABLE=`expr $TABLE + 1`
         done
         MYPREF=""
         if [ $# = 2 ]
