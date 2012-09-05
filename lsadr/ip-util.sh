@@ -6,8 +6,8 @@
 # Author: Markus Stenberg <fingon@iki.fi>
 #
 # Created:       Tue Jul 10 08:40:55 2012 mstenber
-# Last modified: Thu Jul 26 10:54:52 2012 mstenber
-# Edit time:     112 min
+# Last modified: Wed Sep  5 16:28:19 2012 mstenber
+# Edit time:     116 min
 #
 
 ## Utilities that deal with ip -6
@@ -38,10 +38,23 @@ delete_ip6_rules_matching()
     done
 }
 
+delete_routes_matching_metric()
+{
+    METRIC=$1
+
+    for PREFIX in `ip -6 route | grep " metric $METRIC " | cut -d ' ' -f 1`
+    do
+        ip -6 route del $PREFIX
+    done
+}
+
+
 reset_ip6_rules()
 {
     # Delete ALL rules
     delete_ip6_rules_matching
+
+    # Add back the 'default' rules
     ip -6 rule add table local pref 0
     ip -6 rule add
 }
@@ -85,7 +98,11 @@ get_or_add_ip6_table_for_prefix_pref()
         TABLE=1000
         while has_ip6_table_rules $TABLE
         do
-            TABLE=$(($TABLE+1))
+            #TABLE=$(($TABLE+1))
+
+            # .. 'someone' has compiled ash without expression support
+            # this works there too (but is less efficient)
+            TABLE=`expr $TABLE+1`
         done
         MYPREF=""
         if [ $# = 2 ]

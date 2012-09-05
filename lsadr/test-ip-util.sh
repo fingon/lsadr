@@ -6,8 +6,8 @@
 # Author: Markus Stenberg <fingon@iki.fi>
 #
 # Created:       Tue Jul 10 10:24:42 2012 mstenber
-# Last modified: Wed Jul 25 13:58:20 2012 mstenber
-# Edit time:     7 min
+# Last modified: Wed Sep  5 16:28:25 2012 mstenber
+# Edit time:     8 min
 #
 
 . ./ip-util.sh
@@ -43,3 +43,10 @@ echo "nh-ok" `get_if_default_ipv6_nexthop eth1`
 echo "nh-!ok" `get_if_default_ipv6_nexthop asdf`
 
 echo_radvd_conf eth2
+
+# then, add fake blackhole route to test the delete-by-metric
+BLACKHOLE_METRIC=1234567
+ip -6 route add blackhole ::1.2.3.4/96 dev eth2 metric $BLACKHOLE_METRIC
+delete_routes_matching_metric $BLACKHOLE_METRIC
+delete_routes_matching_metric $BLACKHOLE_METRIC
+
