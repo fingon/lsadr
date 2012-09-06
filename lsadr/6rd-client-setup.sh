@@ -6,8 +6,8 @@
 # Author: Markus Stenberg <fingon@iki.fi>
 #
 # Created:       Tue Jul 10 15:38:19 2012 mstenber
-# Last modified: Wed Jul 25 13:19:02 2012 mstenber
-# Edit time:     46 min
+# Last modified: Thu Sep  6 13:25:46 2012 mstenber
+# Edit time:     47 min
 #
 
 # Setup the server-side 6rd tunnel
@@ -60,11 +60,15 @@ ip tunnel $MYIF dev $MYIF 6rd-prefix ${PREFIX} 6rd-relay_prefix ${RELAYPREFIX}
 
 ip link set $MYIF up
 
+# Note: Linux kernel has a bug, which requires dev to be
+# specified for ip -6 routes with e.g. throw and blackhole
+# target. If yours is too old, yours does too. Oh well. 
+
 # primarily, we try to handle default route via the source address
 # specific table - but only that, the rest goes to main table
 if [ ! "x$MYIP6PREFIX_LEN" = 64 ]
 then
-    ip -6 route add throw $PREFIX dev 6rd table ${TABLE}
+    ip -6 route add throw $PREFIX table ${TABLE}
 fi
 ip -6 route add default via ::$GW dev 6rd table ${TABLE} metric ${DEFAULT_METRIC}
 
@@ -72,7 +76,7 @@ ip -6 route add default via ::$GW dev 6rd table ${TABLE} metric ${DEFAULT_METRIC
 ip -6 route add $PREFIX dev 6rd 
 if [ ! "x$MYIP6PREFIX_LEN" = 64 ]
 then
-    ip -6 route add blackhole $MYIP6PREFIX dev 6rd metric ${BLACKHOLE_METRIC}
+    ip -6 route add blackhole $MYIP6PREFIX metric ${BLACKHOLE_METRIC}
 fi
 ip -6 route add default via ::$GW dev 6rd metric ${DEFAULT_METRIC}
 

@@ -6,8 +6,8 @@
 # Author: Markus Stenberg <fingon@iki.fi>
 #
 # Created:       Tue Jul 24 16:06:53 2012 mstenber
-# Last modified: Wed Jul 25 14:14:10 2012 mstenber
-# Edit time:     28 min
+# Last modified: Thu Sep  6 12:25:25 2012 mstenber
+# Edit time:     30 min
 #
 
 BLACKHOLE_METRIC=1234567
@@ -30,12 +30,16 @@ perform_ip_cmds()
     MODE=$1
     if [ ! $PREFIX_LEN = 64 ]
     then
+        # Note: Linux kernel has a bug, which requires dev to be
+        # specified for ip -6 routes with e.g. throw and blackhole
+        # target. If yours is too old, yours does too. Oh well. 
+        
         # Add throw rule for those not matching the specific routes
-        ip -6 route $MODE throw $PREFIX dev $LAN_IF table $TABLE
+        ip -6 route $MODE throw $PREFIX table $TABLE
 
         # And blackhole them in main table to prevent routing loops
         # (with high enough metric)
-        ip -6 route $MODE blackhole $PREFIX dev $LAN_IF metric $BLACKHOLE_METRIC
+        ip -6 route $MODE blackhole $PREFIX metric $BLACKHOLE_METRIC
     fi
 
     # Add default route to the source-specific table
