@@ -6,8 +6,8 @@
 # Author: Markus Stenberg <fingon@iki.fi>
 #
 # Created:       Tue Jul 10 08:40:55 2012 mstenber
-# Last modified: Wed Sep  5 16:43:47 2012 mstenber
-# Edit time:     116 min
+# Last modified: Thu Sep  6 11:53:38 2012 mstenber
+# Edit time:     119 min
 #
 
 ## Utilities that deal with ip -6
@@ -52,10 +52,12 @@ delete_routes_matching_metric()
 reset_ip6_rules()
 {
     # Delete ALL rules
-    delete_ip6_rules_matching
+    #delete_ip6_rules_matching
+    ip -6 rule flush
 
     # Add back the 'default' rules
-    ip -6 rule add table local pref 0
+    # flush leaves this, but not default main table rule
+    #ip -6 rule add table local pref 0
     ip -6 rule add
 }
 
