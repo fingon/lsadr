@@ -6,8 +6,8 @@
 # Author: Markus Stenberg <fingon@iki.fi>
 #
 # Created:       Tue Jul 10 14:57:51 2012 mstenber
-# Last modified: Wed Jul 25 13:40:14 2012 mstenber
-# Edit time:     18 min
+# Last modified: Fri Sep 14 11:17:55 2012 mstenber
+# Edit time:     19 min
 #
 
 # Setup the server-side 6rd tunnel
@@ -41,7 +41,5 @@ RELAYPREFIX=$(my_6rd_relay_prefix_from_ip_ipmasklen $MYIP $IPMASKLEN)/$IPMASKLEN
 ip tunnel add $MYIF mode sit local ${MYIP} ttl 64
 ip tunnel $MYIF dev $MYIF 6rd-prefix ${PREFIX} 6rd-relay_prefix ${RELAYPREFIX}
 ip link set $MYIF up
-#ip route add ::/0 via ::$1.2.3.4 dev 6rd
 ip -6 addr add ${MYIP6}/${PREFIXLEN} dev 6rd
-ip -6 addr add ${MYIP6}/64 dev ${INTERFACE}
-
+#ip -6 addr add ${MYIP6}/64 dev ${INTERFACE}
