@@ -6,7 +6,7 @@
 # Author: Markus Stenberg <fingon@iki.fi>
 #
 # Created:       Tue Jul 10 08:40:55 2012 mstenber
-# Last modified: Thu Sep  6 11:53:38 2012 mstenber
+# Last modified: Wed Sep 12 22:13:05 2012 mstenber
 # Edit time:     119 min
 #
 
@@ -14,7 +14,9 @@
 
 ip() 
 {
-    echo "# ip $*" 1>&2
+    if [ "xIP_UTIL_NODEBUG" = "x" ] ; then
+        echo "# ip $*" 1>&2
+    fi
     for P in /sbin /usr/sbin
     do
         if [ -f $P/ip ]
