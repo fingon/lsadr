@@ -6,8 +6,8 @@
 # Author: Markus Stenberg <fingon@iki.fi>
 #
 # Created:       Tue Jul 10 08:40:55 2012 mstenber
-# Last modified: Wed Sep 12 22:13:05 2012 mstenber
-# Edit time:     119 min
+# Last modified: Thu Oct 25 22:46:07 2012 mstenber
+# Edit time:     133 min
 #
 
 ## Utilities that deal with ip -6
@@ -123,6 +123,21 @@ get_or_add_ip6_table_for_prefix_pref()
     echo $TABLE
 }
 
+filter_not_ours_ipv6_linklocal()
+{
+    for ADDRESS in $*
+    do
+        #echo "Considering $ADDRESS" 1>&2
+
+        # can't trail space - there may be /prefixlen there
+        if ! ip -6 addr | grep " $ADDRESS" >/dev/null
+        then
+            #echo "Not local" 1>&2
+            echo $ADDRESS
+        fi
+    done
+}
+
 get_if_default_ipv6_nexthop()
 {
     DEV=$1
@@ -141,7 +156,22 @@ get_if_default_ipv6_nexthop()
     # Sanity check
     if [ x`echo $NH | cut -d ':' -f 1` = xfe80 ]
     then
-        echo $NH
+        #echo "Got: '$NH'"
+        NONH=`filter_not_ours_ipv6_linklocal $NH`
+        if [ "x$NONH" = x ]
+        then
+            NHS=`rdisc6 -m $DEV 2>/dev/null | egrep '^ from ' | cut -d ' ' -f 3`
+            NONH=`filter_not_ours_ipv6_linklocal $NHS | head -1`
+            if [ ! "x$NONH" = x ]
+            then
+                echo $NONH
+                return
+            fi
+            # fallback beyond this? who knows :p
+        else
+            echo $NONH
+            return
+        fi
     fi
 }
 
