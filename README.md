@@ -1,7 +1,11 @@
 Author:        Markus Stenberg <markus.stenberg@iki.fi>, cisco Systems, Inc.
 Created:       Mon Jul 23 11:05:05 2012 mstenber
-Last modified: Thu Jul 26 11:07:35 2012 mstenber
-Edit time:     41 min
+Last modified: Tue Nov  6 16:10:45 2012 mstenber
+Edit time:     42 min
+
+NOTE: This is somewhat outdated. The rule model is more complex than is
+truly needed. It was just a proof of concept at any rate, and not being
+actively mantained. (-mst, Nov 2012.)
 
 Linux Source Address Dependent Routing
 ======================================
